@@ -3,7 +3,7 @@
 The following scripts illustrate how to fit some of the models presented in *Bernal et al., G3, 2018*, the scripts are also provided at: [https://github.com/anainesvs/BERNAL_etal_G3_2018](https://github.com/anainesvs/glioblastoma), please refer to that webpage for updates.
 
 **Contact**: avazquez@msu.edu
-**Contact**: avazquez@msu.edu   YENI COMPLETE YOUR EMAIL HERE, I AM NOT SURE WHICH EMAIL YOU WANT TO USE
+**Contact**: YENI@.edu   YENI COMPLETE YOUR EMAIL HERE, I AM NOT SURE WHICH EMAIL YOU WANT TO USE
 
 #### (1) Installing BGLR
 The code below illustrates how to install and load the necessary package from CRAN using `install.packages()`.
