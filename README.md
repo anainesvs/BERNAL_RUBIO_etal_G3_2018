@@ -1,6 +1,6 @@
 ## Integrating multiple Omics for Prediction of BC Survival
 
-The following scripts illustrate how to fit some of the models presented in *Bernal Rubio et al., G3, 2018*, the scripts are also provided at: [https://github.com/anainesvs/BERNAL_RUBIO_etal_G3_2018](https://github.com/anainesvs/glioblastoma), please refer to that webpage for updates.
+The following scripts illustrate how to fit some of the models presented in *Bernal Rubio et al., G3, 2018*, the scripts are also provided at: [https://github.com/anainesvs/BERNAL_RUBIO_etal_G3_2018](https://github.com/anainesvs/BERNAL_RUBIO_etal_G3_2018), please refer to that webpage for updates.
 
 **Contact**: avazquez@msu.edu
 **Contact**: jlbernalr@gmail.com
