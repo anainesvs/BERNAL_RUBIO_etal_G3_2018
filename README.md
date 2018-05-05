@@ -1,4 +1,4 @@
-## Integrating multiple Omics for Prediction of BC Survival
+## Integrating multiple Omics from GBM data
 
 The following scripts illustrate how to fit some of the models presented in *Bernal Rubio et al., G3, 2018*, the scripts are also provided at: [https://github.com/anainesvs/BERNAL_RUBIO_etal_G3_2018](https://github.com/anainesvs/BERNAL_RUBIO_etal_G3_2018), please refer to that webpage for updates.
 
