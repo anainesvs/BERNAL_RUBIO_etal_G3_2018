@@ -81,7 +81,7 @@ After downloading, files can be loaded into R with:
   
 ```
 
-Clinical covariates, as well as omic datasets should be edited by removing outliers (for instance, observations outside of mean $\pm$ 3SD) and ordering samples id equally across datasets. Also, incidence matrix should be conformable in dimensions for subsequent analysis.
+Clinical covariates, as well as omic datasets should be edited by removing outliers (for instance, observations outside of mean +- 3SD) and ordering samples id equally across datasets. Also, incidence matrix should be conformable in dimensions for subsequent analysis.
 
 #### (4) Description of SNP data
 
