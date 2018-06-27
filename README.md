@@ -16,7 +16,7 @@ The code below illustrates how to install and load the necessary package from CR
 
 #### (2) Simulating survival data, demographics and omics
 
-The following script allows to simulate
+The following script allows to simulate SNP genotypes, gene expression values and methylation beta-values for 100 individuals, as well as survival data based on previous omics. The R package `simsurv` is used, using as inputs the simulated matrices.
 
 ```R
   #Simulating a SNP matrix.
@@ -30,6 +30,7 @@ The following script allows to simulate
   X.meth <- matrix(rbeta(100*2000, shape1 = 0.5, shape2 = 0.5),100,2000)
 
   #Simulating survival data.
+  install.packages(pkg='simsurv')
   library(simsurv)
   covs <- as.data.frame(cbind(X.ge[,sample(1:300,4)],
                             X.meth[,sample(1:2000,10)],
