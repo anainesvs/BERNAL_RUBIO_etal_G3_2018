@@ -22,15 +22,12 @@ The following script allows to simulate
   #Simulating a SNP matrix.
   p <- runif(1)
   X.snp <- matrix(sample(0:2, prob = c(p^2, 2*p*(1-p), (1-p)^2), replace = T,size=100*1000),100,1000)
-  X.snp[1:4,1:3]
 
   #Simulating GE matrix (w/counts).
   X.ge <- matrix(rpois(n = 100*300, lambda = 50),100,300)
-  X.ge[1:4,1:3]
 
   #Simulating DM matrix (beta values).
   X.meth <- matrix(rbeta(100*2000, shape1 = 0.5, shape2 = 0.5),100,2000)
-  X.meth[1:4,1:3]
 
   #Simulating survival data.
   library(simsurv)
@@ -49,8 +46,7 @@ The following script allows to simulate
 
   #Save objects editing names of rows and columns.
   XF<-s.fm[,c(1,4:5)]
-  y<-s.fm[,c(1,2,3)]
-  
+  y<-s.fm[,c(1,2,3)]  
   y$ycen <- y$eventtime
   n <- nrow(y)
   y$b <- rep(Inf,n)
@@ -58,19 +54,15 @@ The following script allows to simulate
   isCensored <- y$status==0
   y$a[isCensored] <- y$ycen[isCensored]
   y$ycen[isCensored] <- NA
-  
-  head(y)
-
   rownames(X.snp)<-rownames(X.ge)<-rownames(X.meth)<-as.character(s.fm$id)
   colnames(X.meth)<-c(paste0("CPG_",seq(1:ncol(X.meth))))
   colnames(X.ge)<-c(paste0("ge_",seq(1:ncol(X.ge))))
   colnames(X.snp)<-c(paste0("SNP_",seq(1:ncol(X.snp))))
-
   save(X.ge,X.meth,X.snp,y,XF,file="OMIC_DATA.rda")
 ``` 
 
 #### (3) Loading data
-**Data**: The code assumes that the user has downloaded the file `OMIC_DATA.rda`, or executed the previous simulation script which contains:
+**Data**: The code assumes that the user has executed the previous simulation script or prepared a file from real data called `OMIC_DATA.rda`which contains:
 
    * `XF`: a matrix for clinical covariates (age).
    * `X.ge`: a matrix for gene expression. 
@@ -202,7 +194,6 @@ In this section we show how to pre-correct the incidence matrix corresponding to
    Xge_batch<-t(do.call(rbind,adj_batch))
    rownames(Xge_batch)<-rownames(Xge)
    colnames(Xge_batch)<-colnames(Xge)
-
 ```
 The output "Xge_batch" can be used to compute the similarity matrix for gene expression according to section (5).
 
