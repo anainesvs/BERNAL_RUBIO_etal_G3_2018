@@ -14,7 +14,7 @@ The code below illustrates how to install and load the necessary package from CR
    library(BGLR); 
 ```  
 
-#### (2) Simulating survival data, demographics and omic information
+#### (2) Simulating survival data, demographics and omics
 
 The following script allows to simulate
 
