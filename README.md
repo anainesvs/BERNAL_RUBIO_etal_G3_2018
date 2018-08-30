@@ -70,9 +70,9 @@ X.ge <- scale(X.ge, scale=TRUE, center=FALSE)
 ```
 **NOTE**: for larger data sets it may be more convinient to use the `getG()` function available in [BGData](https://github.com/quantgen/BGData) R-package. This function allows computing G without loading all the data in RAM and offers methods for multi-core computing. 
 
-#### (5)  Exploring demographic effects in the principal components (e.g., Methylation-derived PC vs age)
+#### (5)  Obtaining principal components (e.g., Methylation)
 
-The following code shows how to search for effects of demographics such as age on the omic derived PCs, for instance, from Methylation.
+The following code shows how to obtain the PC for the methylation data. Same approach can be applied to additional omics.
 
 ```R
    #Gmeth has been obtained as described in previous section
@@ -82,8 +82,6 @@ The following code shows how to search for effects of demographics such as age o
    rownames(pc.meth) <- rownames(G.meth)
    colnames(pc.meth) <- paste0("PC",1:ncol(pc.meth))
 ```
-
-A similar approach can be implemented for additional omics (gene expression and methylation).
 
 #### (6) Variance explained by omics
 
