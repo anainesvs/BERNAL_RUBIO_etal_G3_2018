@@ -16,13 +16,13 @@ The code below illustrates how to install and load the necessary package from CR
 
 #### (2)  Loading data
 
-   * `XF`: a matrix containing age at the moment of diagnosis (numeric, years), gender (0/1 is female, or not), race (0/1 is white, or not). 
+   * `XF`: a matrix containing age at the moment of diagnosis (years), gender (0/1 is female, or not), race (0/1 is white, or not). 
    * `X.ge`: a matrix for gene expression. 
-   * `X.meth`: a matrix for methylation values at various sites.
-   * `X.cnv`: a matrix of mean CNV intensity per gen.
-   * `y`: a matrix with 4 columns. The first column 'time' is the time to last follow up or event, columns 2 and 3 are variables `a` and `b` required by BGLR to analyze censored data, see description on this analysis on BGLR can be found on [https://cran.r-project.org/web/packages/BGLR/vignettes/BGLR-extdoc.pdf](https://cran.r-project.org/web/packages/BGLR/vignettes/BGLR-extdoc.pdf). Finally, the column 4 ('status 4 months') is an indicator variable (0/1) with 0 indicating whether the patient is alive at the 5th month after diagnosis.
+   * `X.meth`: a matrix for methylation values at various CpG sites.
+   * `X.cnv`: a matrix of mean CNV intensity per gene.
+   * `y`: a matrix with 4 columns. The first column 'time' is the time to last follow up or event, columns 2 and 3 are variables `a` and `b` required by BGLR to analyze censored data ( description of this analysis on BGLR can be found on [https://cran.r-project.org/web/packages/BGLR/vignettes/BGLR-extdoc.pdf](https://cran.r-project.org/web/packages/BGLR/vignettes/BGLR-extdoc.pdf). Finally, the column 4 ('status 4 months') is an indicator variable (0/1) with 0 indicating whether the patient is alive at the 5th month after diagnosis.
    * `batch`: A vector containing gene expression batch by subject.
-   * `folds`: A vector containing fold numbers (1 and 2) for cross validations. The two folds are balanced so they have the same proportions of dead/alive individuals. 
+   * `folds`: A vector containing fold numbers (1 and 2) for cross validations. The two folds are balanced, so they have the same proportions of dead/alive individuals.
   
 After downloading, files can be loaded into R with:
 
@@ -34,14 +34,9 @@ After downloading, files can be loaded into R with:
   
 ```
 
-Clinical covariates, as well as omic datasets should be edited by removing outliers (for instance, observations outside of mean +- 3SD) and ordering samples id equally across datasets. Also, incidence matrix should be conformable in dimensions for subsequent analysis.
-
 ##### (3) Pre-adjust gene expression matrix by batch
 
-THIS WILL PROBABLY BE DONE BEFORE, THEN RM THE SECTION
-ALSO, MENTION BATCH EF CORRECTION IN (2) DATA
-
-For demostration, in this section we show how to pre-correct the incidence matrix corresponding to gene expression by batch effects using mixed models. The input used is the matrix "X.ge" centered, and the batch code for each sample. Using a linear mixed model, the pre-correction regresses each column of the Xge matrix into the corresponding batch effect, assuming them as random effects.
+In this section we show how to pre-correct the incidence matrix corresponding to gene expression by batch effects using mixed models. The input used is the matrix "X.ge" centered and scaled, and the batch code for each sample. Using a linear mixed model, the pre-correction regresses each column of the X.ge matrix into the corresponding batch effect, assuming them as random effects.
 
 ```R
 p <- ncol(X.ge)
@@ -60,7 +55,7 @@ X.ge <- scale(X.ge, scale=TRUE, center=FALSE)
 
  Some of the models fitted in the study use similarity matrices of the form G=XX' 
  computed from omics. The following code illustrates how to compute this matrix for 
- SNP genotypes. A similar code could be use to compute a G-matrix for methylation 
+ SNP genotypes. A similar code could be used to compute a G-matrix for methylation 
  or other omics.
  
 ```R 
@@ -75,9 +70,9 @@ X.ge <- scale(X.ge, scale=TRUE, center=FALSE)
 ```
 **NOTE**: for larger data sets it may be more convinient to use the `getG()` function available in [BGData](https://github.com/quantgen/BGData) R-package. This function allows computing G without loading all the data in RAM and offers methods for multi-core computing. 
 
-#### (4)  Exploring demographic effects in the principal components (e.g., Methylation-derived PC vs age)
+#### (5)  Exploring demographic effects in the principal components (e.g., Methylation-derived PC vs age)
 
-The following code shows how to search for effects of demographics such as age on the omic derived PCs, for instance from Methylation.
+The following code shows how to search for effects of demographics such as age on the omic derived PCs, for instance, from Methylation.
 
 ```R
    #Gmeth has been obtained as described in previous section
@@ -88,13 +83,11 @@ The following code shows how to search for effects of demographics such as age o
    colnames(pc.meth) <- paste0("PC",1:ncol(pc.meth))
 ```
 
-Principal component coefficients can be plotted to visualize stratification in the dataset by gender as follows:
-
 A similar approach can be implemented for additional omics (gene expression and methylation).
 
-#### (5) Variance explained by omics
+#### (6) Variance explained by omics
 
-The following code illustrates how to use BGLR to fit a fixed effects model. The incidence matrix "XF" as well as the object "y" described in section (3) are used. There is no column for intercept in XF because BGLR adds the intercept automatically. Predictors are given to BGLR in the form a two-level list. The argument `save_at` can be used to provide a path and a pre-fix to be added to the files saved by BGLR. For further details see [Perez-Rodriguez and de los Campos, Genetics, 2014](http://www.genetics.org/content/genetics/198/2/483.full.pdf). The code also shows how to retrieve estimates of effects and of success probabilities. In the examples below we fit the model using the default number of iterations (1,500) and burn-in (500). In practice, longer chains are needed and therefore, the user can increase the number of iterations or the burn-in using the arguments `nIter` and `burnIn` of `BGLR`.
+The following code illustrates how to use BGLR to fit mixed effects models.Predictors are given to BGLR in the form a two-level list. The argument `save_at` can be used to provide a path and a pre-fix to be added to the files saved by BGLR. For further details see [Perez-Rodriguez and de los Campos, Genetics, 2014] (http://www.genetics.org/content/genetics/198/2/483.full.pdf). The code also shows how to retrieve posterior quantities. In the examples below, we fit the model using the default number of iterations (1,500) and burn-in (500). In practice, longer chains are needed. The user can increase the number of iterations or the burn-in using the arguments `nIter` and `burnIn` of `BGLR`.
 
 ```R
    ### Inputs: XF, pc.meth and y
@@ -120,7 +113,7 @@ The following code illustrates how to use BGLR to fit a fixed effects model. The
 ```
 
 
-#### (8)  Evaluating prediction accuracy.
+#### (7)  Evaluating prediction accuracy.
 
 The following code illustrates how to use BGLR to calculate prediction accuracy of omic models. Note that in Bernal-Rubio et al 2018, AUC was calculated by estimating the proportion of deaths at different time points, equivalent to every month after diagnosis (e.g. month 1 after diagnosis, month 2 after diagnosis, ...). Below is an example for month 5 after the diagnosis (vital status available in y[, 4]).
 
@@ -128,23 +121,28 @@ The following illustrates how to select a validation set using the model `covari
 
 ```R
 #Installing and loading library pROC to compute Area Under the ROC Curve.
-   install.packages(pkg='pROC')    # install pROC
-   library(pROC);
-   n <- nrow(y)
-   status.5months <- y[, "status 5 months"]
-# Setting training and testing sets
-   trn <- (1:n)[folds == 1]
-   tst <- -trn
-   yNA <- y[, "time"]
-   yNA[tst] <- NA
-# Fit the model only in the training set
-   fm.meth <- BGLR(y=yNA,a=y[,"a"],b=y[,"b"],ETA=ETA.cov_meth,saveAt="Example3_")
- # Find probability of survival for the testing set
-   pred <-fm.meth$probs[tst,2]
-# Estimate AUC
-   AUC <- auc(status.5months[tst], pred)
-#For the first individual, area under the standard normal curve (CDF) 
-#of estimated y from full model:
-   pnorm(fm.meth$yHat[1])
-```
+install.packages(pkg='pROC')    # install pROC
+library(pROC)
+n <- nrow(y)
+status.5months <- y[, "status 5 months"]
 
+# Cross-validation.
+yNA <- y[, "time"]
+aNA <- y[,"a"]
+yNA[folds == 1] <- NA
+aNA[folds == 1] <- -300
+
+# Fit the model only in the training set.
+fm.meth <- BGLR(y=yNA,a=aNA,b=y[,"b"],ETA=ETA.cov_meth,saveAt="Example3_")
+
+# Storing predictions.
+pred <- fm.meth$yHat[folds == 1]
+
+# Estimate AUC
+AUC <- auc(status.5months[folds == 1], pred)
+
+# For the first individual, area under the standard normal curve (CDF) 
+# of estimated y from full model:
+pnorm(fm.meth$yHat[1])
+
+```
