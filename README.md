@@ -30,7 +30,7 @@ After downloading, files can be loaded into R with:
   load('GBM_DATA.rda')
   #Checking files present and dimensions
   ls()
-  #[1] "X.ge"   "X.meth" "X.cnv"  "XF"     "y"   
+  #[1] "X.ge"   "X.meth" "X.cnv"  "XF"     "y"   "batch" "folds"
   
 ```
 
@@ -48,7 +48,7 @@ for(j in 1:p) {
   X.ge[tmp, j] <- residuals(lmer(X.ge[tmp, j] ~ 1 | batch[tmp]))
 }
 #Center and scaling X.ge columns.
-X.ge <- scale(X.ge, scale=TRUE, center=FALSE) 
+X.ge <- scale(X.ge, scale=TRUE, center=TRUE) 
 ```
 
 #### (4) Computing similarity matrices
